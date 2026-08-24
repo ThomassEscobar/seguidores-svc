@@ -44,6 +44,19 @@ La documentación completa está en la carpeta [`docs/`](docs/):
 - [`docs/05_Justificacion.md`](docs/05_Justificacion.md) — justificación del servicio: RF/RNF/seguridad cubiertos, stack y por qué cada tecnología AWS
 - [`docs/diagramas/`](docs/diagramas/) — C4 (contexto, contenedores, componentes), secuencia e infraestructura AWS — Docker, Docker Compose e integración
 
+## Modelo de ramificacion
+
+Modelo elegido: GitFlow
+
+Elegimos GitFlow porque nos permite organizar el proyecto durante el semestre y mantener separadas las versiones estables de las que están en desarrollo.
+
+| Rama       | Uso                                                   |
+| ---------- | ----------------------------------------------------- |
+| `main`     | Contiene las versiones estables y entregables.        |
+| `develop`  | Integra los cambios antes de pasarlos a `main`.       |
+| `feature/` | Para desarrollar nuevas funcionalidades.              |
+| `hotfix/`  | Para corregir errores urgentes sin afectar `develop`. |
+
 ## Cómo ejecutar locmente
 
 ```bash
