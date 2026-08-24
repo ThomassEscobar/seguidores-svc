@@ -61,24 +61,14 @@ Elegimos GitFlow porque nos permite organizar el proyecto durante el semestre y 
 
 ### Historial de Commits y Orden Cronológico
 
-1. **`main`**
-   - `feat: version inicial del microservicio seguidores`[cite: 1]
-
-2. **`main`** (o `develop`)
-   - `docs: documentar modelo de ramificacion GitFlow y su justificacion`[cite: 1]
-
-3. **`feature/pagina-presentacion`** *(Pull Request hacia `develop`)*
-   - `feat(ui): agregar pie de pagina con version del servicio`[cite: 1]
-
-4. **`feature/changelog`** *(Pull Request hacia `develop`)*
-   - `docs: agregar changelog del microservicio seguidores`[cite: 1]
-
-5. **`hotfix/titulo-pagina`** *(Pull Request hacia `main` y merge a `develop`)*
-   - `fix(ui): corregir titulo de la pagina principal`[cite: 1]
-
-6. **`develop`**
-   - `chore(ci): agregar workflow hola mundo (IE3/IE4)`[cite: 1]
-
+| N° | Rama | Evento / Destino | Commit |
+| :-: | :--- | :--- | :--- |
+| **1** | `main` | Base inicial | `feat: version inicial del microservicio seguidores` |
+| **2** | `main` | Documentación | `docs: documentar modelo de ramificacion GitFlow y su justificacion` |
+| **3** | `feature/pagina-presentacion` | Pull Request $\rightarrow$ `develop` | `feat(ui): agregar pie de pagina con version del servicio` |
+| **4** | `feature/changelog` | Pull Request $\rightarrow$ `develop` | `docs: agregar changelog del microservicio seguidores` |
+| **5** | `hotfix/titulo-pagina` | Pull Request $\rightarrow$ `main` (y merge a `develop`) | `fix(ui): corregir titulo de la pagina principal` |
+| **6** | `develop` | CI / Integration | `chore(ci): agregar workflow hola mundo (IE3/IE4)` |
 
 ## Cómo ejecutar localmente
 
