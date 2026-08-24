@@ -1,4 +1,21 @@
 # Changelog — seguidores-svc
+
+Todas las modificaciones notables de este proyecto serán documentadas en este archivo.
+
 ## [1.0.0] - 2026
-- Version inicial del microservicio pagos.
-- Pagina de presentacion con Swagger UI, OpenAPI y ReDoc.
+
+### Añadido
+- Versión inicial del microservicio `seguidores`.
+- Página de presentación con Swagger UI, OpenAPI y ReDoc.
+- Configuración básica para despliegue local.
+- Estrategia y modelo de ramificación GitFlow implementado.
+- Workflow de Integración Continua (CI) en GitHub Actions (`hola-mundo.yml`).
+
+### Historial de Commits
+
+- `feat: version inicial del microservicio seguidores`
+- `docs: documentar modelo de ramificacion GitFlow y su justificacion`
+- `feat(ui): agregar pie de pagina con version del servicio`
+- `docs: agregar changelog del microservicio seguidores`
+- `fix(ui): corregir titulo de la pagina principal`
+- `chore(ci): agregar workflow hola mundo (IE3/IE4)`
