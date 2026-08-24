@@ -89,3 +89,11 @@ docker compose up --build
 mvn test      # unit tests + Cucumber
 mvn verify    # + verificación de cobertura JaCoCo (100% LINE, falla si baja)
 ```
+
+## Reflexion Individual
+
+### Reflexión Thomas Escobar
+
+> Mi principal aprendizaje fue comprender y aplicar en un entorno real el modelo de ramificación GitFlow y las buenas prácticas del flujo de trabajo en DevOps. Trabajar con ramas dedicadas e integrar todos los cambios obligatoriamente mediante Pull Requests. Me permitió experimentar cómo se mantiene la estabilidad del código en producción mientras se incorporan nuevas funcionalidades en la rama de integración.
+> 
+> La implementación del primer workflow de Integración Continua con GitHub Actions es un gran avance para mi y me demostró la importancia de la automatización temprana en el ciclo de vida del software, asegurando la trazabilidad, revisión de código y el cumplimiento de estándares de calidad antes de cualquier despliegue.
