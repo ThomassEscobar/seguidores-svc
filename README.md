@@ -13,7 +13,7 @@ Microservicio correspondiente al **caso caso12 — DevConnect** (Red social de c
 
 ## Responsabilidad (SRP)
 
-administra los datos y la lógica del dominio de Seguidores del caso caso12 (DevConnect). Su base de datos es una **H2 en memoria** (un solo microservicio por base), cumpliendo aislamiento de datos por dominio.
+Administra los datos y la lógica del dominio de Seguidores del caso caso12 (DevConnect). Su base de datos es una **H2 en memoria** (un solo microservicio por base), cumpliendo aislamiento de datos por dominio.
 
 ## Página de presentación
 
@@ -46,7 +46,7 @@ La documentación completa está en la carpeta [`docs/`](docs/):
 - [`docs/05_Justificacion.md`](docs/05_Justificacion.md) — justificación del servicio: RF/RNF/seguridad cubiertos, stack y por qué cada tecnología AWS
 - [`docs/diagramas/`](docs/diagramas/) — C4 (contexto, contenedores, componentes), secuencia e infraestructura AWS — Docker, Docker Compose e integración
 
-## Modelo de ramificacion
+## Modelo de ramificacion y estructura
 
 Modelo elegido: GitFlow
 
@@ -59,7 +59,28 @@ Elegimos GitFlow porque nos permite organizar el proyecto durante el semestre y 
 | `feature/` | Para desarrollar nuevas funcionalidades.              |
 | `hotfix/`  | Para corregir errores urgentes sin afectar `develop`. |
 
-## Cómo ejecutar locmente
+### Historial de Commits y Orden Cronológico
+
+1. **`main`**
+   - `feat: version inicial del microservicio seguidores`[cite: 1]
+
+2. **`main`** (o `develop`)
+   - `docs: documentar modelo de ramificacion GitFlow y su justificacion`[cite: 1]
+
+3. **`feature/pagina-presentacion`** *(Pull Request hacia `develop`)*
+   - `feat(ui): agregar pie de pagina con version del servicio`[cite: 1]
+
+4. **`feature/changelog`** *(Pull Request hacia `develop`)*
+   - `docs: agregar changelog del microservicio seguidores`[cite: 1]
+
+5. **`hotfix/titulo-pagina`** *(Pull Request hacia `main` y merge a `develop`)*
+   - `fix(ui): corregir titulo de la pagina principal`[cite: 1]
+
+6. **`develop`**
+   - `chore(ci): agregar workflow hola mundo (IE3/IE4)`[cite: 1]
+
+
+## Cómo ejecutar localmente
 
 ```bash
 mvn spring-boot:run
