@@ -2,9 +2,9 @@
 
 Microservicio correspondiente al **caso caso12 — DevConnect** (Red social de comunidad profesional) de la Evaluación Parcial N°1.
 
-| | |
-|---|---|
-| Asignatura | JVY0101 — Java: Diseño y Construcción de Soluciones Nativas en Nube |
+|Alumno|Thomas Escobar|
+|Docente|Mauricio Velasquez|
+| Asignatura | Ingeniería DevOps — DOY0101 |
 | Stack | Spring Boot 3.3 · Java 21 · Maven · Spring Data JPA · H2 · springdoc-openapi |
 | Calidad | JaCoCo cobertura LINE 100% · Cucumber (BDD) alineado a endpoints REST |
 | Entrega | Docker / Docker Compose |
