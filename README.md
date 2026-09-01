@@ -98,5 +98,5 @@ mvn verify    # + verificación de cobertura JaCoCo (100% LINE, falla si baja)
 > 
 > La implementación del primer workflow de Integración Continua con GitHub Actions es un gran avance para mi y me demostró la importancia de la automatización temprana en el ciclo de vida del software, asegurando la trazabilidad, revisión de código y el cumplimiento de estándares de calidad antes de cualquier despliegue.
 
-
-> _Nota: Se utilizó asistencia de Inteligencia Artificial (Gemini) para apoyar en la redacción y estructuración del texto._
+## Nota:
+> _Se utilizó asistencia de Inteligencia Artificial (Gemini) para apoyar en la redacción y estructuración del texto._
