@@ -4,7 +4,7 @@ Microservicio correspondiente al **caso caso12 — DevConnect** (Red social de c
 
 | Campo | Detalle |
 | --- | --- |
-| **Alumno** | Thomas Escobar |
+| **Alumno** | Thomas Escobar, Nicolas Lagos |
 | **Docente** | Mauricio Velasquez |
 | **Asignatura** | Ingeniería DevOps — DOY0101 |
 | **Stack** | Spring Boot 3.3 · Java 21 · Maven · Spring Data JPA · H2 · springdoc-openapi |
