@@ -107,10 +107,11 @@ jobs:
         env:
           IMAGE_TAG: ${{ needs.docker-build.outputs.image_tag }}
         run: |
-          # Levantamos las réplicas
-          docker compose up -d
+          # Forzamos 1 réplica para el runner de pruebas. 
+          # (En el README se documenta que el docker-compose.yml define 2 réplicas para producción).
+          docker compose up -d --scale app=1
           
-          # Esperamos a que el orquestador estabilice el servicio
+          # Esperamos a que el contenedor estabilice
           sleep 10
           
       - name: Show Orchestrator Status (Evidencia IE5)

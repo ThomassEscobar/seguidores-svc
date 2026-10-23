@@ -1,12 +1,12 @@
-version: '3.8'
-
 services:
   app:
     image: mi-micro:${IMAGE_TAG:-latest}
-    container_name: seguidores-svc-deploy
+    # Al usar réplicas, Docker asigna nombres automáticos (ej. seguidores-svc-app-1)
     ports:
-      - "8080:8080"
+      - "8080:8080" 
     deploy:
+      # En un entorno real (Swarm/K8s) se usarían 2 réplicas. 
+      # En este runner de CI, Docker Compose limitará esto para evitar conflictos de puerto.
       replicas: 2
       resources:
         limits:
