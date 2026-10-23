@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.5</version>
+        <version>3.5.12</version> <!-- ACTUALIZADO PARA MITIGAR CVEs -->
         <relativePath/>
     </parent>
 
@@ -19,13 +19,8 @@
 
     <properties>
         <java.version>21</java.version>
-        <springdoc.version>2.6.0</springdoc.version>
+        <springdoc.version>2.8.10</springdoc.version> <!-- ACTUALIZADO -->
         <cucumber.version>7.18.1</cucumber.version>
-        <!-- 👇 NUEVAS PROPIEDADES PARA PARCHEAR VULNERABILIDADES CRÍTICAS (IE3) -->
-        <tomcat.version>10.1.40</tomcat.version>
-        <jackson-bom.version>2.18.2</jackson-bom.version>
-        <spring-framework.version>6.1.17</spring-framework.version>
-        <spring-boot.version>3.3.7</spring-boot.version> <!-- O la 3.4.x si prefieres -->
     </properties>
 
     <dependencies>
@@ -33,7 +28,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- NUEVO: necesario para /actuator/health (HEALTHCHECK del Dockerfile) -->
+        <!-- Necesario para /actuator/health (HEALTHCHECK del Dockerfile) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -57,6 +52,7 @@
             <version>${springdoc.version}</version>
         </dependency>
 
+        <!-- Dependencias de test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -143,6 +139,7 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
+                                            <!-- Umbral ajustado al 70% para IE2 -->
                                             <minimum>0.70</minimum>
                                         </limit>
                                     </limits>
