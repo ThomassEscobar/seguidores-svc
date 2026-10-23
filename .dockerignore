@@ -1,5 +1,13 @@
 target/
-*.class
+.git/
+.github/
 .idea/
-.vscode/
 *.iml
+.vscode/
+docs/
+README.md
+CHANGELOG.md
+docker-compose.yml
+Dockerfile
+.dockerignore
+*.log
