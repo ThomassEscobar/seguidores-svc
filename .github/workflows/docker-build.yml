@@ -2,28 +2,25 @@ name: Build Docker Image
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, develop ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, develop ]
 
 permissions:
   contents: read
-  packages: write   # necesario si luego publicas en GHCR
+  packages: write
 
 jobs:
   docker-build:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Clonar el repositorio
       - name: Checkout source
         uses: actions/checkout@v4
 
-      # 2. Configurar Docker Buildx (opcional pero recomendado)
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # 3. Construir la imagen (sin push, solo verificar que compila)
       - name: Build Docker image
         uses: docker/build-push-action@v6
         with:
@@ -31,6 +28,5 @@ jobs:
           file: ./Dockerfile
           push: false
           tags: mi-micro:v1
-          # Cachea capas para acelerar builds futuros
           cache-from: type=gha
           cache-to: type=gha,mode=max
