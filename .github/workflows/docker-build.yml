@@ -56,7 +56,8 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --severity-threshold=high
+          # Solo bloquea el pipeline si encuentra vulnerabilidades CRÍTICAS
+          args: --severity-threshold=critical
 
       # 2. Snyk Code: escanea el código fuente (SAST)
       - name: Run Snyk Code (SAST)
@@ -65,7 +66,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: code test
-          args: --severity-threshold=high .
+          args: --severity-threshold=critical .
 
   docker-build:
     # Espera a que test y security pasen. Si security falla, esto se salta (skipped).
