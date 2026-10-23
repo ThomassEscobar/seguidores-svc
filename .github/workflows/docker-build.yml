@@ -13,7 +13,6 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -25,8 +24,6 @@ jobs:
           java-version: '21'
           cache: 'maven'
 
-      # Ejecuta tests + JaCoCo report + check de cobertura (70%)
-      # Si una prueba falla o la cobertura baja de 70%, el job queda rojo
       - name: Run tests and coverage check
         run: mvn -B verify
 
@@ -46,23 +43,35 @@ jobs:
           path: target/surefire-reports/
           retention-days: 7
 
-  docker-build:
-    needs: test          # 👈 solo construye si los tests pasan
+  # 1. El análisis de seguridad va PRIMERO (después de test)
+    security:
+    needs: test
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build Docker image
-        uses: docker/build-push-action@v6
+      # Ya no necesitas configurar Java aquí para Snyk si usas la acción correcta,
+      # pero lo dejamos por si acaso.
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
         with:
-          context: .
-          file: ./Dockerfile
-          push: false
-          tags: mi-micro:v1
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      # ✅ USA ESTA ACCIÓN: maven-3-jdk-21 en lugar de maven
+      - name: Run Snyk Open Source
+        uses: snyk/actions/maven-3-jdk-21@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+      - name: Run Snyk Code (SAST)
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: code test
+          args: --severity-threshold=high .
