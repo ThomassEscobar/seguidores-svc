@@ -106,7 +106,19 @@ jobs:
       - name: Deploy with Docker Compose
         env:
           IMAGE_TAG: ${{ needs.docker-build.outputs.image_tag }}
-        run: docker compose up -d
+        run: |
+          # Levantamos las réplicas
+          docker compose up -d
+          
+          # Esperamos a que el orquestador estabilice el servicio
+          sleep 10
+          
+      - name: Show Orchestrator Status (Evidencia IE5)
+        run: |
+          echo "=== Estado de los contenedores (Réplicas y Límites) ==="
+          docker compose ps
+          echo "=== Límites de recursos aplicados ==="
+          docker stats --no-stream
         
       - name: Post-deploy Verification (Healthcheck)
         run: |
