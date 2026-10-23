@@ -1,13 +1,26 @@
+version: '3.8'
+
 services:
-  seguidores-svc:
-    build: .
-    image: mi-micro:v1
-    container_name: seguidores-svc
+  app:
+    image: mi-micro:${IMAGE_TAG:-latest} # Usará el SHA del commit
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: seguidores-svc-deploy
     ports:
       - "8080:8080"
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:8080/actuator/health"]
-      interval: 30s
+      interval: 10s
       timeout: 5s
-      retries: 3
-      start_period: 40s
+      retries: 5
+      start_period: 20s
+    # Aquí empezamos a definir la escalabilidad (para el IE5)
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M

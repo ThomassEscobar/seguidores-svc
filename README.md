@@ -9,94 +9,44 @@ Microservicio correspondiente al **caso caso12 — DevConnect** (Red social de c
 | **Asignatura** | Ingeniería DevOps — DOY0101 |
 | **Stack** | Spring Boot 3.3 · Java 21 · Maven · Spring Data JPA · H2 · springdoc-openapi |
 | **Calidad** | JaCoCo cobertura LINE 100% · Cucumber (BDD) alineado a endpoints REST |
-| **Entrega** | Docker / Docker Compose |
+| **Entrega** | Pipeline % Pruebas |
 
-## Responsabilidad (SRP)
+# Seguidores Microservice (DevConnect)
 
-Administra los datos y la lógica del dominio de Seguidores del caso caso12 (DevConnect). Su base de datos es una **H2 en memoria** (un solo microservicio por base), cumpliendo aislamiento de datos por dominio.
+## Pipeline de CI/CD y Trazabilidad
 
-## Página de presentación
+Este proyecto cuenta con un pipeline de integración y despliegue continuo (CI/CD) implementado en GitHub Actions, el cual garantiza la calidad del código y la trazabilidad de los despliegues.
 
-Al ejecutar el servicio, `http://localhost:8080/` muestra la página de presentación del microservicio con documentación y enlaces a:
+### 1. Diagrama del Pipeline
+`Test` ➡️ `Security` ➡️ `Docker Build` ➡️ `Deploy`
 
-- **Swagger UI**: `/swagger-ui/index.html`
-- **OpenAPI (yaml)**: `/v3/api-docs.yaml`
-- **ReDoc**: `/redoc.html`
-- **H2 Console**: `/h2-console`
+1. **Test (Calidad):** Ejecuta pruebas unitarias con JUnit y verifica la cobertura con JaCoCo (mínimo 70%). Si falla, el pipeline se detiene.
+2. **Security (Seguridad):** Ejecuta Snyk para buscar vulnerabilidades (OS y SAST). Configurado para alertar en severidades altas, pero con política de bloqueo.
+3. **Docker Build (Empaquetado):** Construye la imagen Docker.
+4. **Deploy (Despliegue):** Despliega en un entorno simulado con Docker Compose.
 
-## Endpoints
+### 2. Trazabilidad
+- **Versionado por Commit:** Cada imagen Docker se etiqueta automáticamente con el SHA corto del commit (`GITHUB_SHA`). Por ejemplo: `mi-micro:a1b2c3d`.
+- **Logs y Artefactos:** Los reportes de cobertura (JaCoCo) y los resultados de los tests son subidos como artefactos descargables en cada ejecución de GitHub Actions.
+- **Bloqueo por Seguridad:** El pipeline está configurado para no desplegar si los tests fallan o si el análisis de seguridad (Snyk) detecta vulnerabilidades críticas.
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| GET | `/api/seguimientos` | Lista todos los recursos |
-| GET | `/api/seguimientos/{id}` | Obtiene un recurso por id |
-| POST | `/api/seguimientos` | Crea un recurso |
-| PUT | `/api/seguimientos/{id}` | Actualiza un recurso |
-| DELETE | `/api/seguimientos/{id}` | Elimina un recurso |
-
-## Documentación del proyecto
-
-La documentación completa está en la carpeta [`docs/`](docs/):
-
-- [`docs/00_Resumen.md`](docs/00_Resumen.md) — propósito, responsabilidad y tecnologías
-- [`docs/01_Arquitectura.md`](docs/01_Arquitectura.md) — componentes, arquitectura y patrones
-- [`docs/02_API.md`](docs/02_API.md) — contrato REST y ejemplos curl
-- [`docs/03_Pruebas.md`](docs/03_Pruebas.md) — tests unitarios, cobertura y Cucumber
-- [`docs/04_Despliegue.md`](docs/04_Despliegue.md)
-- [`docs/05_Justificacion.md`](docs/05_Justificacion.md) — justificación del servicio: RF/RNF/seguridad cubiertos, stack y por qué cada tecnología AWS
-- [`docs/diagramas/`](docs/diagramas/) — C4 (contexto, contenedores, componentes), secuencia e infraestructura AWS — Docker, Docker Compose e integración
-
-## Modelo de ramificacion y estructura
-
-Modelo elegido: GitFlow
-
-Elegimos GitFlow porque nos permite organizar el proyecto durante el semestre y mantener separadas las versiones estables de las que están en desarrollo.
-
-| Rama       | Uso                                                   |
-| ---------- | ----------------------------------------------------- |
-| `main`     | Contiene las versiones estables y entregables.        |
-| `develop`  | Integra los cambios antes de pasarlos a `main`.       |
-| `feature/` | Para desarrollar nuevas funcionalidades.              |
-| `hotfix/`  | Para corregir errores urgentes sin afectar `develop`. |
-
-### Historial de Commits y Orden Cronológico
-
-| N° | Rama | Evento / Destino | Commit |
-| :-: | :--- | :--- | :--- |
-| **1** | `main` | Base inicial | `feat: version inicial del microservicio seguidores` |
-| **2** | `main` | Documentación | `docs: documentar modelo de ramificacion GitFlow y su justificacion` |
-| **3** | `feature/pagina-presentacion` | Pull Request $\rightarrow$ `develop` | `feat(ui): agregar pie de pagina con version del servicio` |
-| **4** | `feature/changelog` | Pull Request $\rightarrow$ `develop` | `docs: agregar changelog del microservicio seguidores` |
-| **5** | `hotfix/titulo-pagina` | Pull Request $\rightarrow$ `main` (y merge a `develop`) | `fix(ui): corregir titulo de la pagina principal` |
-| **6** | `develop` | CI / Integration | `chore(ci): agregar workflow hola mundo (IE3/IE4)` |
-
-## Cómo ejecutar localmente
-
+### 3. Ejecución Local
 ```bash
-mvn spring-boot:run
-```
+# Levantar el entorno local
+docker compose up -d --build
 
-## Cómo ejecutar con Docker
+# Verificar salud
+curl http://localhost:8080/actuator/health
 
-```bash
-docker compose up --build
-# http://localhost:8080
-```
 
-## Cómo ejecutar las pruebas
+---
 
-```bash
-mvn test      # unit tests + Cucumber
-mvn verify    # + verificación de cobertura JaCoCo (100% LINE, falla si baja)
-```
+### 📸 Evidencia para el IE4
 
-## Reflexion Individual
+Una vez hagas push a `main` (recuerda que el deploy solo corre en `main`), ve a GitHub Actions y verifica:
+1. El job `deploy` aparece en la lista de jobs y está en **verde** ✅.
+2. Haz clic en `deploy` y toma captura de la sección **"Post-deploy Verification"** donde se ve el `curl` exitoso al `/actuator/health`.
+3. Toma captura de tu `README.md` abierto en GitHub mostrando el diagrama y la sección de trazabilidad.
+4. (Opcional) Muestra la lista de artefactos al final del run, donde aparecerá la imagen `docker-image.tar` y el `jacoco-report`.
 
-### Reflexión Thomas Escobar
-
-> Mi principal aprendizaje fue comprender y aplicar en un entorno real el modelo de ramificación GitFlow y las buenas prácticas del flujo de trabajo en DevOps. Trabajar con ramas dedicadas e integrar todos los cambios obligatoriamente mediante Pull Requests. Me permitió experimentar cómo se mantiene la estabilidad del código en producción mientras se incorporan nuevas funcionalidades en la rama de integración.
-> 
-> La implementación del primer workflow de Integración Continua con GitHub Actions es un gran avance para mi y me demostró la importancia de la automatización temprana en el ciclo de vida del software, asegurando la trazabilidad, revisión de código y el cumplimiento de estándares de calidad antes de cualquier despliegue.
-
-## Nota:
-> _Se utilizó asistencia de Inteligencia Artificial (Gemini) para apoyar en la redacción y estructuración del texto._
+¡Con esto tienes el IE4 cerrado y además dejaste preparado el `docker-compose.yml` con los límites de CPU y memoria para el IE5! 🚀
