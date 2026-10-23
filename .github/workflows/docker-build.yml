@@ -13,7 +13,6 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -25,8 +24,6 @@ jobs:
           java-version: '21'
           cache: 'maven'
 
-      # Ejecuta tests + JaCoCo report + check de cobertura (70%)
-      # Si una prueba falla o la cobertura baja de 70%, el job queda rojo
       - name: Run tests and coverage check
         run: mvn -B verify
 
@@ -46,10 +43,41 @@ jobs:
           path: target/surefire-reports/
           retention-days: 7
 
-  docker-build:
-    needs: test          # 👈 solo construye si los tests pasan
+  # 1. El análisis de seguridad va PRIMERO (después de test)
+  security:
+    needs: test
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
 
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Run Snyk Open Source
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+      # Snyk Code requiere Node, por eso usamos la acción de node
+      - name: Run Snyk Code (SAST)
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: code test
+          args: --severity-threshold=high .
+
+  # 2. Docker build va AL FINAL (solo si test Y security pasan)
+  docker-build:
+    needs: [test, security]  # 👈 Espera a ambos. Si security falla, esto se salta (skipped).
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
