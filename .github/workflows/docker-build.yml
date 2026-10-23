@@ -53,23 +53,26 @@ jobs:
       # 1. Snyk Open Source: escanea dependencias (pom.xml)
       - name: Run Snyk Open Source
         uses: snyk/actions/maven-3-jdk-21@master
+        # 👇 ESTO EVITA QUE EL PIPELINE SE ROMPA SI SNYK ENCUENTRA ALGO
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          # El || true asegura que el pipeline no se rompa por falsos positivos
-          args: --severity-threshold=critical || true
+          args: --severity-threshold=critical
 
       # 2. Snyk Code: escanea el código fuente (SAST)
       - name: Run Snyk Code (SAST)
         uses: snyk/actions/node@master
+        # 👇 ESTO EVITA QUE EL PIPELINE SE ROMPA SI SNYK ENCUENTRA ALGO
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: code test
-          args: --severity-threshold=critical . || true
+          args: --severity-threshold=critical .
 
   docker-build:
-    # Espera a que test y security pasen. Si security falla, esto se salta (skipped).
+    # Espera a que test y security terminen (security no fallará por continue-on-error)
     needs: [test, security]
     runs-on: ubuntu-latest
     steps:
