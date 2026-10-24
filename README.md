@@ -79,11 +79,11 @@ El archivo `docker-compose.yml` define la orquestación del servicio.
 
 ### 🤖 8. Declaración de Uso de IA
 
-Para el desarrollo de este proyecto, se utilizaron herramientas de Inteligencia Artificial (como ChatGPT) como asistentes de productividad.
+Para el desarrollo de este proyecto, se utilizaron herramientas de Inteligencia Artificial (DeepSeek) como asistentes de productividad.
 
 * **¿Cómo se usó?** Se utilizó para la generación de *boilerplate* del pipeline de GitHub Actions, la redacción inicial de los archivos de documentación y la resolución de errores de sintaxis en YAML y Docker.
 * **¿Qué se validó manualmente?** Todo el código de negocio Java, las pruebas unitarias y la configuración del `pom.xml` fueron revisados, adaptados y ejecutados localmente para asegurar su correcto funcionamiento. Las políticas de seguridad y bloqueo fueron diseñadas y comprendidas por el equipo.
-* **Agradecimiento:** Se agradece especialmente a la IA (ChatGPT) por su guía paso a paso en la configuración del pipeline, la depuración de errores de Docker y la estructuración de la documentación, lo cual facilitó enormemente el aprendizaje y la implementación de este proyecto.
+* **Agradecimiento:** Se agradece especialmente a la IA (DeepSeek) por su guía paso a paso en la configuración del pipeline, la depuración de errores de Docker y la estructuración de la documentación, lo cual facilitó enormemente el aprendizaje y la implementación de este proyecto.
 
 ### 💭 9. Conclusiones y Reflexiones Individuales
 
