@@ -1,0 +1,51 @@
+{
+  "widgets": [
+    {
+      "type": "metric",
+      "x": 0, "y": 0, "width": 12, "height": 6,
+      "properties": {
+        "title": "Disponibilidad de Pods y Reinicios (seguidores-svc)",
+        "metrics": [
+          [ "ContainerInsights", "pod_number_of_running_containers", "ClusterName", "seguidores-eks-cluster", "Namespace", "seguidores-prod", "PodName", "seguidores-svc", { "stat": "Minimum", "label": "Pods Activos" } ],
+          [ ".", "pod_number_of_container_restarts", ".", ".", ".", ".", ".", ".", { "stat": "Sum", "label": "Reinicios de Contenedor" } ]
+        ],
+        "period": 60,
+        "region": "us-east-1"
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12, "y": 0, "width": 12, "height": 6,
+      "properties": {
+        "title": "Utilización CPU y Memoria vs Límites (%)",
+        "metrics": [
+          [ "ContainerInsights", "pod_cpu_utilization_over_pod_limit", "ClusterName", "seguidores-eks-cluster", "Namespace", "seguidores-prod", "PodName", "seguidores-svc", { "label": "CPU % Límite" } ],
+          [ ".", "pod_memory_utilization_over_pod_limit", ".", ".", ".", ".", ".", ".", { "label": "Memoria % Límite" } ]
+        ],
+        "period": 60,
+        "region": "us-east-1"
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0, "y": 6, "width": 12, "height": 6,
+      "properties": {
+        "title": "Errores de Aplicación Detectados en Logs",
+        "metrics": [
+          [ "SeguidoresApp/Observability", "SeguidoresErrorCount", { "stat": "Sum", "label": "Errores / Excepciones" } ]
+        ],
+        "period": 60,
+        "region": "us-east-1"
+      }
+    },
+    {
+      "type": "log",
+      "x": 12, "y": 6, "width": 12, "height": 6,
+      "properties": {
+        "title": "Últimos Errores y Excepciones (CloudWatch Logs Insights)",
+        "query": "SOURCE '/aws/containerinsights/seguidores-eks-cluster/application' | fields @timestamp, kubernetes.pod_name, log | filter kubernetes.namespace_name = 'seguidores-prod' and (log like /ERROR/ or log like /Exception/) | sort @timestamp desc | limit 25",
+        "region": "us-east-1"
+      }
+    }
+  ]
+}

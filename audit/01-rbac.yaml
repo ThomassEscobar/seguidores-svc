@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: seguidores-svc-sa
+  namespace: seguidores-prod
+automountServiceAccountToken: false
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: seguidores-svc-readonly-role
+  namespace: seguidores-prod
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    resourceNames: ["seguidores-svc-config"]
+    verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: seguidores-svc-rolebinding
+  namespace: seguidores-prod
+subjects:
+  - kind: ServiceAccount
+    name: seguidores-svc-sa
+    namespace: seguidores-prod
+roleRef:
+  kind: Role
+  name: seguidores-svc-readonly-role
+  apiGroup: rbac.authorization.k8s.io

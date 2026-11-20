@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: seguidores-svc-config
+  namespace: seguidores-prod
+data:
+  SERVER_PORT: "8080"
+  SPRING_PROFILES_ACTIVE: "eks"
+  # Deshabilita consola H2 en producción y expone métricas para CloudWatch/Prometheus
+  SPRING_H2_CONSOLE_ENABLED: "false"
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,metrics,prometheus"
+  MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED: "true"
+  MANAGEMENT_HEALTH_LIVENESSSTATE_ENABLED: "true"
+  MANAGEMENT_HEALTH_READINESSSTATE_ENABLED: "true"
+  LOGGING_LEVEL_ROOT: "INFO"
