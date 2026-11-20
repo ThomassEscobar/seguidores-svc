@@ -25,6 +25,10 @@ spec:
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
         prometheus.io/path: "/actuator/prometheus"
+        instrumentation.opentelemetry.io/inject-java: "false"
+        instrumentation.opentelemetry.io/inject-nodejs: "false"
+        instrumentation.opentelemetry.io/inject-python: "false"
+        instrumentation.opentelemetry.io/inject-dotnet: "false"
     spec:
       serviceAccountName: seguidores-svc-sa
       automountServiceAccountToken: false
@@ -51,10 +55,10 @@ spec:
           resources:
             requests:
               cpu: "300m"
-              memory: "384Mi"
+              memory: "512Mi"
             limits:
               cpu: "1000m"
-              memory: "640Mi"
+              memory: "768Mi"
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: false
@@ -68,7 +72,7 @@ spec:
             httpGet:
               path: /actuator/health
               port: 8080
-            initialDelaySeconds: 20
+            initialDelaySeconds: 15
             periodSeconds: 5
             timeoutSeconds: 5
             failureThreshold: 24

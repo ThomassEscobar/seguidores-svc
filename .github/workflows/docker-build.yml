@@ -176,7 +176,7 @@ jobs:
 
       - name: Post-deploy Verification & Rollback on Failure
         run: |
-          if ! kubectl rollout status deployment/seguidores-svc -n ${{ env.K8S_NAMESPACE }} --timeout=180s; then
+          if ! kubectl rollout status deployment/seguidores-svc -n ${{ env.K8S_NAMESPACE }} --timeout=300s; then
             echo "❌ El despliegue no estabilizó. Ejecutando rollback..."
             kubectl rollout undo deployment/seguidores-svc -n ${{ env.K8S_NAMESPACE }}
             kubectl get events -n ${{ env.K8S_NAMESPACE }} --sort-by='.lastTimestamp'
