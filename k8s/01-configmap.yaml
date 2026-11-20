@@ -6,8 +6,8 @@ metadata:
 data:
   SERVER_PORT: "8080"
   SPRING_PROFILES_ACTIVE: "eks"
-  # Deshabilita consola H2 en producción y expone métricas para CloudWatch/Prometheus
   SPRING_H2_CONSOLE_ENABLED: "false"
+  JAVA_TOOL_OPTIONS: "-XX:MaxRAMPercentage=75.0 -XX:+UseG1GC"
   MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,metrics,prometheus"
   MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED: "true"
   MANAGEMENT_HEALTH_LIVENESSSTATE_ENABLED: "true"
