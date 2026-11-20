@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: seguidores-svc-zero-trust
+  namespace: seguidores-prod
+spec:
+  podSelector:
+    matchLabels:
+      app: seguidores-svc
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Permite tráfico entrante únicamente al puerto 8080 (clientes via NLB y scraper de métricas)
+    - ports:
+        - protocol: TCP
+          port: 8080
+  egress:
+    # Permite resolución DNS interna de CoreDNS y salida HTTPS (443) hacia servicios AWS
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    - ports:
+        - protocol: TCP
+          port: 443

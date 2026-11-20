@@ -52,6 +52,14 @@
             <version>${springdoc.version}</version>
         </dependency>
 
+        <!-- Requerido para exponer /actuator/prometheus hacia CloudWatch Container Insights -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+
         <!-- Dependencias de test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

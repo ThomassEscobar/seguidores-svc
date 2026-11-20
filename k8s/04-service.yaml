@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: seguidores-svc
+  namespace: seguidores-prod
+  labels:
+    app: seguidores-svc
+  annotations:
+    # Provisiona un Network Load Balancer (NLB) en AWS EKS para exposición directa
+    service.beta.kubernetes.io/aws-load-balancer-type: "external"
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+spec:
+  type: LoadBalancer
+  selector:
+    app: seguidores-svc
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+annotations:
+  service.beta.kubernetes.io/aws-load-balancer-type: "nlb"

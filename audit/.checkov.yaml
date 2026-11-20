@@ -1,0 +1,9 @@
+directory:
+  - k8s/
+  - monitoring/
+  - audit/
+framework:
+  - kubernetes
+compact: true
+quiet: true
+soft-fail: false
