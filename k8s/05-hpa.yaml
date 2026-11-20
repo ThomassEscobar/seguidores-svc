@@ -24,5 +24,7 @@ spec:
           type: Utilization
           averageUtilization: 85
   behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 120
     scaleDown:
       stabilizationWindowSeconds: 180
