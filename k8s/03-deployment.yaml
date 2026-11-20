@@ -13,7 +13,7 @@ spec:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
-      maxUnavailable: 0 # Garantiza cero tiempo de inactividad (Zero-Downtime)
+      maxUnavailable: 0
   selector:
     matchLabels:
       app: seguidores-svc
@@ -22,7 +22,6 @@ spec:
       labels:
         app: seguidores-svc
       annotations:
-        # Autodescubrimiento para CloudWatch Container Insights / Prometheus
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
         prometheus.io/path: "/actuator/prometheus"
@@ -38,7 +37,6 @@ spec:
           type: RuntimeDefault
       containers:
         - name: seguidores-svc
-          # El pipeline reemplaza esta imagen con el digest/tag inmutable de Amazon ECR
           image: IMAGE_URI_PLACEHOLDER
           imagePullPolicy: Always
           ports:
@@ -52,14 +50,14 @@ spec:
                 name: seguidores-svc-secret
           resources:
             requests:
-              cpu: "250m"
-              memory: "256Mi"
+              cpu: "300m"
+              memory: "384Mi"
             limits:
-              cpu: "500m"
-              memory: "512Mi"
+              cpu: "1000m"
+              memory: "640Mi"
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: false # Spring Boot/Tomcat requiere /tmp; se monta emptyDir abajo
+            readOnlyRootFilesystem: false
             capabilities:
               drop:
                 - ALL
@@ -70,16 +68,17 @@ spec:
             httpGet:
               path: /actuator/health
               port: 8080
-            initialDelaySeconds: 15
+            initialDelaySeconds: 20
             periodSeconds: 5
-            failureThreshold: 12 # Hasta 75s para arranque inicial de JVM
+            timeoutSeconds: 5
+            failureThreshold: 24
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: 8080
             initialDelaySeconds: 10
             periodSeconds: 10
-            timeoutSeconds: 3
+            timeoutSeconds: 5
             failureThreshold: 3
           livenessProbe:
             httpGet:
@@ -87,7 +86,7 @@ spec:
               port: 8080
             initialDelaySeconds: 20
             periodSeconds: 15
-            timeoutSeconds: 3
+            timeoutSeconds: 5
             failureThreshold: 3
       volumes:
         - name: tmp-dir
